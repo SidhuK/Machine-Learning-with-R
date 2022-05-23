@@ -8,7 +8,8 @@ ML Algorithms practise using R with tidymodels
 
 The main aim of this repository is for me to get to learn a bit more about the following concepts in predictive modelling/Machine Learning:
 
-- PCA Analysis
+- ~~PCA Analysis~~
+- ~~UMAP Analysis~~
 - XGBoost
 - ~~Text Analysis~~
 - ~~Recipes~~
@@ -17,6 +18,7 @@ The main aim of this repository is for me to get to learn a bit more about the f
 - Regression and Correlation
 - Logistical Regression - predict and fit
 - Bootstrap Resampling
+- Correlation
 - ~~Support Vector Machine (SVM)~~
 - ~~Random Forest~~
 - Lasso Regression
@@ -34,7 +36,7 @@ Using RFs and SVMs models to predict the rating of chocolates using the associat
 - Text Prediction
 
 **Analysis File**
-[file](01_ChocolateRatings/chocolates.html)
+[file](01_Chocolates/chocolates.html)
 
 **Blog Post**
 
@@ -42,8 +44,17 @@ https://karatsidhu.com/posts/tidymodels-svm-random-forests/
 
 ### 02 - PCA and UDA Analysis
 
-Principal Component Analysis
+Principal Component Analysis and UMAP Analysis
+
+- Cocktails recipes data
+- Clustering similar cocktails together
 
 **Analysis File**
 
+[file](02_Cocktails/cocktails.html)
+
 **Blog Post**
+
+https://karatsidhu.com/posts/tidymodels-pca-and-umap/
+
+### 03 - LDA Analysis
