@@ -1,6 +1,6 @@
 # Machine Learning with R
 
-ML Algorithms practise using R with tidymodels
+ML Algorithms practice using R with tidymodels
 
 # Using this Repository to learn more about developing models using Tidymodels and other R packages.
 
@@ -10,20 +10,16 @@ The main aim of this repository is for me to get to learn a bit more about the f
 
 - ~~PCA Analysis~~
 - ~~UMAP Analysis~~
-- XGBoost
 - ~~Text Analysis~~
 - ~~Recipes~~
-- KNN
-- KMeans
-- Regression and Correlation
-- Logistical Regression - predict and fit
-- Bootstrap Resampling
-- Correlation
 - ~~Support Vector Machine (SVM)~~
 - ~~Random Forest~~
-- Lasso Regression
-- LDA - Discriminant analysis
+- ~~KNN~~
+- ~~Regression - Logistical~~
+- PLS-DA - Discriminant analysis
+- KMeans
 - Native Bayes
+- XGBoost
 
 # Table of Contents
 
@@ -57,4 +53,15 @@ Principal Component Analysis and UMAP Analysis
 
 https://karatsidhu.com/posts/tidymodels-pca-and-umap/
 
-### 03 - LDA Analysis
+### 03 - KNN and GLM (Classification models)
+
+K Nearest Neighbors and Logistical Regression for predicting the sex of the penguins
+using the Palmer Penguins dataset
+
+**Analysis File**
+
+[file](03_Penguins/penguins.html)
+
+**Blog Post**
+
+https://karatsidhu.com/posts/tidymodels-knn-and-glm/
