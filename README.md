@@ -16,8 +16,7 @@ The main aim of this repository is for me to get to learn a bit more about the f
 - ~~Random Forest~~
 - ~~KNN~~
 - ~~Regression - Logistical~~
-- PLS-DA - Discriminant analysis
-- KMeans
+- ~~PLS-DA - Discriminant analysis~~
 - Native Bayes
 - XGBoost
 
@@ -36,7 +35,7 @@ Using RFs and SVMs models to predict the rating of chocolates using the associat
 
 **Blog Post**
 
-https://karatsidhu.com/posts/tidymodels-svm-random-forests/
+https://karatsidhu.com/posts/tidymodels-svm-random-forests/tidymodels-svm-random-forests.html
 
 ### 02 - PCA and UDA Analysis
 
@@ -51,7 +50,7 @@ Principal Component Analysis and UMAP Analysis
 
 **Blog Post**
 
-https://karatsidhu.com/posts/tidymodels-pca-and-umap/
+https://karatsidhu.com/posts/tidymodels-pca-and-umap/tidymodels-pca-and-umap.html
 
 ### 03 - KNN and GLM (Classification models)
 
@@ -64,4 +63,18 @@ using the Palmer Penguins dataset
 
 **Blog Post**
 
-https://karatsidhu.com/posts/tidymodels-knn-and-glm/
+https://karatsidhu.com/posts/tidymodels-knn-and-glm/tidymodels-knn-and-glm.html
+
+### 04 - PLS-DA
+
+Iris Dataset PLS-DA analysis
+
+- MDATools Package
+
+**Analysis**
+
+[file](04_PLS/PLS-DA.html)
+
+**Blog Post**
+
+https://karatsidhu.com/posts/mdatools-pls-da-analysis/mdatools-pls-da-analysis.html
