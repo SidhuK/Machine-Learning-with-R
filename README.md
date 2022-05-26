@@ -73,7 +73,7 @@ Iris Dataset PLS-DA analysis
 
 **Analysis**
 
-[file](04_PLS/PLS-DA.html)
+[file](04_Flowers/PLS-DA.html)
 
 **Blog Post**
 
