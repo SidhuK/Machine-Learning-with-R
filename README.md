@@ -17,7 +17,7 @@ The main aim of this repository is for me to get to learn a bit more about the f
 - ~~KNN~~
 - ~~Regression - Logistical~~
 - ~~PLS-DA - Discriminant analysis~~
-- Native Bayes
+- ~~Native Bayes~~
 - XGBoost
 
 # Table of Contents
@@ -78,3 +78,15 @@ Iris Dataset PLS-DA analysis
 **Blog Post**
 
 https://karatsidhu.com/posts/mdatools-pls-da-analysis/mdatools-pls-da-analysis.html
+
+### 05 - Naive Bayes
+
+Netflix movies and tv shows Naive Bayes analysis
+
+**Analysis**
+
+[file](05_Netflix/Netflix-Bayes.html)
+
+**Blog Post**
+
+https://karatsidhu.com/posts/netflix-naive_bayes/naive_bayes

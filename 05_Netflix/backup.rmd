@@ -1,0 +1,265 @@
+---
+title: "Train and evaluate models with tidymodels"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 8, fig.height = 5)
+```
+
+# Naive Bayes on Netflix Dataset
+
+
+# Loading the packages
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(tidytext)
+```
+
+# Loading the data
+
+```{r}
+
+netflix <- readr::read_csv("netflix_titles.csv")
+
+```
+
+
+# Exploratory data analysis
+
+*This template offers an opinionated guide on how to structure a modeling analysis. Your individual modeling analysis may require you to add to, subtract from, or otherwise change this structure, but consider this a general framework to start from. If you want to learn more about using tidymodels, check out our [Getting Started](https://www.tidymodels.org/start/) guide.*
+
+In this example analysis, let's fit a model to predict [the sex of penguins](https://allisonhorst.github.io/palmerpenguins/) from species and measurement information.
+
+```{r}
+
+counts <-
+  netflix %>%
+  distinct(show_id, .keep_all = TRUE) %>%
+  unnest_tokens(words, description) %>%
+  count(type, words, sort = TRUE)
+
+
+
+```
+
+
+
+```{r}
+counts %>%
+  tidylo::bind_log_odds(type, words, n) %>%
+  filter(n > 10) %>%
+  group_by(type) %>%
+  slice_max(log_odds_weighted, n = 10) %>%
+  ungroup() %>%
+  ggplot(aes(log_odds_weighted,
+    fct_reorder(words, log_odds_weighted),
+    fill = type
+  )) +
+  geom_col(alpha = 0.8, show.legend = FALSE) +
+  facet_wrap(vars(type), scales = "free_y") +
+  labs(y = NULL)
+
+```
+
+
+
+
+```{r}
+
+library(tidymodels)
+
+set.seed(123)
+
+netflix_split <-
+  netflix %>%
+  distinct(show_id, .keep_all = TRUE) %>%
+  select(type, description) %>%
+  initial_split(prop = 0.8, strata = type)
+
+netflix_train <- training(netflix_split)
+netflix_test <- testing(netflix_split)
+
+set.seed(234)
+netflix_folds <- bootstraps(netflix_train, strata = type)
+netflix_folds
+
+
+```
+
+
+```{r}
+
+library(textrecipes)
+library(themis)
+
+rec_all <-
+  recipe(type ~ description, data = netflix_train) %>%
+  step_tokenize(description) %>%
+  step_tokenfilter(description, max_tokens = 80) %>%
+  step_tfidf(description)
+
+rec_all_norm <-
+  rec_all %>%
+  step_normalize(all_predictors())
+
+rec_all_smote <-
+  rec_all_norm %>%
+  step_smote(type)
+
+## we can `prep()` just to check if it works
+prep(rec_all_smote)
+
+```
+
+
+
+## For Stop Words
+ 
+```{r}
+
+
+rec_stop <-
+  recipe(type ~ description, data = netflix_train) %>%
+  step_tokenize(description) %>%
+  step_stopwords(description) %>%
+  step_tokenfilter(description, max_tokens = 80) %>%
+  step_tfidf(description)
+
+rec_stop_norm <-
+  rec_stop %>%
+  step_normalize(all_predictors())
+
+rec_stop_smote <-
+  rec_stop_norm %>%
+  step_smote(type)
+
+## again, let's check it
+prep(rec_stop_smote)
+
+```
+
+
+
+
+
+```{r}
+
+library(discrim)
+
+nb_spec <-
+  naive_Bayes() %>%
+  set_mode("classification") %>%
+  set_engine("naivebayes")
+
+nb_spec
+
+```
+
+
+```{r}
+
+netflix_models <-
+  workflow_set(
+    preproc = list(
+      all = rec_all,
+      all_norm = rec_all_norm,
+      all_smote = rec_all_smote,
+      stop = rec_stop,
+      stop_norm = rec_stop_norm,
+      stop_smote = rec_stop_smote
+    ),
+    models = list(nb = nb_spec),
+    cross = TRUE
+  )
+
+netflix_models
+
+```
+
+
+
+
+```{r}
+
+
+set.seed(123)
+doParallel::registerDoParallel()
+
+netflix_rs <-
+  netflix_models %>%
+  workflow_map(
+    "fit_resamples",
+    resamples = netflix_folds,
+    metrics = metric_set(accuracy, sensitivity, specificity)
+  )
+
+```
+
+
+```{r}
+
+
+
+rank_results(netflix_rs) %>%
+  filter(.metric == "accuracy")
+
+```
+
+
+
+
+```{r}
+
+netflix_wf <- workflow(rec_all, nb_spec)
+
+netflix_fitted <-
+  last_fit(
+    netflix_wf,
+    netflix_splot,
+    metrics = metric_set(accuracy, sensitivity, specificity)
+  )
+
+comp_fitted
+
+```
+
+
+```{r}
+
+collect_metrics(netflix_fitted)
+
+
+```
+
+
+```{r}
+collect_predictions(netflix_fitted) %>%
+  conf_mat(type, .pred_class) %>%
+  autoplot()
+
+
+```
+
+
+```{r}
+
+extract_workflow(netflix_fitted) %>%
+  tidy() %>%
+  group_by(estimate > 0) %>%
+  slice_max(abs(estimate), n = 10) %>%
+  ungroup() %>%
+  mutate(term = str_remove(term, "tfidf_interaction_")) %>%
+  ggplot(aes(estimate, fct_reorder(term, estimate), fill = estimate > 0)) +
+  geom_col(alpha = 0.8) +
+  scale_fill_discrete(labels = c("movie", "tv-show")) +
+  labs(y = NULL, fill = "More from...")
+
+```
+
+
+
+You can save this fitted `final_wf` object to use later with new data, for example with `readr::write_rds()`.
