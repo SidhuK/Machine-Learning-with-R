@@ -18,7 +18,9 @@ The main aim of this repository is for me to get to learn a bit more about the f
 - ~~Regression - Logistical~~
 - ~~PLS-DA - Discriminant analysis~~
 - ~~Native Bayes~~
-- XGBoost
+- ~~XGBoost~~
+
+# Update: June 02-2022: All the algorithms I wanted to test out were practised. If I feel I should try some more, more will be added here.
 
 # Table of Contents
 
@@ -90,3 +92,15 @@ Netflix movies and tv shows Naive Bayes analysis
 **Blog Post**
 
 https://karatsidhu.com/posts/netflix-naive_bayes/naive_bayes
+
+### 06 - XGBoost
+
+Volleyball Data analysis and model prep for wins with XGBoost
+
+**Analysis**
+
+[file](06_Volleyball/Volleyball.html)
+
+**Blog Post**
+
+https://karatsidhu.com/posts/tidymodels-xgboost/xgboost.html
